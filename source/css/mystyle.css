@@ -27,8 +27,8 @@ body {
     margin: 100px 0;
     background:linear-gradient(
                 to left,
-                rgb(50, 143, 230),
-                rgb(39, 189, 114)) ;
+                rgb(198, 248, 255),
+                rgb(187, 150, 210)) ;
     transition: 0.3s;
 }
 
