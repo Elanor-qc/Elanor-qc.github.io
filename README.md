@@ -15,4 +15,8 @@ The project follows Chinese laws and prohibits any illegal use, such as pornogra
 
 修改：Elanor
 
+1.保留了index页面的设计，其余所有页面重写。
+2.更改配色为蓝紫色调。
+3.logo设计：@壹贰叁壹贰。
+
 
