@@ -1,79 +1,672 @@
 <!DOCTYPE html>
-<html  oncontextmenu=self.event.returnValue=false onselectstart="return false">
+<html oncontextmenu="return false" onselectstart="return false">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" src="source/js/header.js"></script>
-    <title>项目 - TuHome</title>
+    <title>项目 - Elanor's Garden</title>
+    <style>
+        /* 精确紫色渐变主题变量 */
+        :root {
+            --color-start: rgb(198, 248, 255); /* 浅蓝紫色 */
+            --color-end: rgb(187, 150, 210); /* 浅紫色 */
+            --primary-gradient: linear-gradient(135deg, rgb(198, 248, 255), rgb(187, 150, 210));
+            --primary-gradient-horizontal: linear-gradient(90deg, rgb(198, 248, 255), rgb(187, 150, 210));
+            --secondary: #8a4baf; /* 深紫色作为强调色 */
+            --accent: #ff7e5f; /* 暖橙色作为点缀 */
+            --light: #faf6ff; /* 非常浅的紫色背景 */
+            --dark: #3d3749; /* 深紫色文字 */
+            --gray: #6b6577; /* 中灰色文字 */
+            --light-gray: #e8e2f0; /* 浅紫色边框 */
+            --border: #d1c6e1; /* 浅紫色边框 */
+            --shadow-sm: 0 2px 8px rgba(140, 110, 170, 0.1);
+            --shadow-md: 0 5px 15px rgba(140, 110, 170, 0.15);
+            --shadow-lg: 0 10px 25px rgba(140, 110, 170, 0.18);
+            --shadow-xl: 0 15px 35px rgba(140, 110, 170, 0.2);
+        }
+
+        /* 基础样式 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(198, 248, 255, 0.15), rgba(187, 150, 210, 0.15));
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 主容器 */
+        #card {
+            max-width: 1100px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-xl);
+            padding: 30px;
+            margin-top: 20px;
+            border: 1px solid var(--border);
+        }
+
+        /* 返回按钮和logo */
+        #favorite {
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease;
+        }
+
+            #favorite:hover {
+                transform: scale(1.05);
+            }
+
+        /* 页面标题 */
+        .page-title {
+            font-size: 2rem;
+            color: var(--dark);
+            margin: 20px 0 10px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid;
+            border-image: var(--primary-gradient);
+            border-image-slice: 1;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .page-subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        /* 项目导航 */
+        .project-nav {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .project-btn {
+            padding: 8px 20px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            color: var(--dark);
+        }
+
+            .project-btn.active,
+            .project-btn:hover {
+                background: var(--primary-gradient);
+                color: white;
+                border-color: transparent;
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-md);
+            }
+
+        /* 项目卡片 */
+        .project-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-md);
+            border-top: 5px solid transparent;
+            border-image: var(--primary-gradient);
+            border-image-slice: 1;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+            .project-card:hover {
+                transform: translateY(-5px);
+                box-shadow: var(--shadow-lg);
+                border-top-color: var(--secondary);
+            }
+
+            .project-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, rgba(198, 248, 255, 0.05), rgba(187, 150, 210, 0.05));
+                z-index: 0;
+            }
+
+        /* 项目卡片头部 */
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            color: var(--dark);
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .project-date {
+            color: var(--gray);
+            font-size: 0.9rem;
+            background: rgba(198, 248, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+        }
+
+        /* 项目内容 */
+        .project-content {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-img {
+            width: 35%;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover .project-img {
+            transform: scale(1.02);
+        }
+
+        .project-details {
+            flex: 1;
+        }
+
+        .project-description {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        /* 项目标签 */
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-tag {
+            display: inline-block;
+            background: rgba(198, 248, 255, 0.3);
+            color: rgb(66, 133, 146);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(198, 248, 255, 0.6);
+        }
+
+            .project-tag.cplusplus {
+                background: rgba(187, 150, 210, 0.3);
+                color: rgb(116, 80, 139);
+                border: 1px solid rgba(187, 150, 210, 0.6);
+            }
+
+            .project-tag.ai {
+                background: rgba(255, 126, 95, 0.2);
+                color: rgb(179, 89, 60);
+                border: 1px solid rgba(255, 126, 95, 0.4);
+            }
+
+            .project-tag.web {
+                background: rgba(138, 75, 175, 0.2);
+                color: rgb(116, 42, 163);
+                border: 1px solid rgba(138, 75, 175, 0.4);
+            }
+
+            .project-tag.python {
+                background: rgba(76, 175, 80, 0.2);
+                color: rgb(56, 142, 60);
+                border: 1px solid rgba(76, 175, 80, 0.4);
+            }
+
+        /* 项目链接 */
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+            position: relative;
+            z-index: 1;
+        }
+
+            .project-link::after {
+                content: "↗";
+                margin-left: 5px;
+                transition: transform 0.3s ease;
+            }
+
+            .project-link:hover {
+                color: rgb(116, 42, 163);
+                border-bottom: 1px solid rgb(116, 42, 163);
+            }
+
+                .project-link:hover::after {
+                    transform: translate(2px, -2px);
+                }
+
+        /* 项目统计 */
+        .project-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* 项目过滤 */
+        .filter-container {
+            background: linear-gradient(135deg, rgba(198, 248, 255, 0.2), rgba(187, 150, 210, 0.2));
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+        }
+
+        .filter-title {
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-tag {
+            padding: 6px 15px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            color: var(--dark);
+        }
+
+            .filter-tag.active,
+            .filter-tag:hover {
+                background: var(--primary-gradient);
+                color: white;
+                border-color: transparent;
+            }
+
+        /* 返回首页按钮 */
+        .back-home-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-gradient);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .back-home-btn::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                transition: left 0.7s ease;
+            }
+
+            .back-home-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: var(--shadow-lg);
+            }
+
+                .back-home-btn:hover::before {
+                    left: 100%;
+                }
+
+            .back-home-btn .icon-arrow {
+                margin-right: 8px;
+                transition: transform 0.3s ease;
+            }
+
+            .back-home-btn:hover .icon-arrow {
+                transform: translateX(-3px);
+            }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .project-content {
+                flex-direction: column;
+            }
+
+            .project-img {
+                width: 100%;
+                max-height: 200px;
+            }
+
+            #card {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .page-title {
+                font-size: 1.6rem;
+            }
+
+            .project-nav {
+                justify-content: center;
+            }
+
+            .filter-tags {
+                justify-content: center;
+            }
+
+            .back-home-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* 空状态提示 */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        /* 加载动画 */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray);
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(198, 248, 255, 0.3);
+            border-top-color: rgb(187, 150, 210);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </head>
 <body>
     <noscript> <iframe src="*.htm"></iframe> </noscript>
-    <SCRIPT language=JavaScript>
-        document.oncontextmenu = nocontextmenu;
-        document.onmousedown = norightclick;
-        document.ondragstart = noDragstart;
-        document.onselectstart = noSelect;
-        document.onselect = document.selection.empty();
-        document.onkeydown = keyDown;
-    </SCRIPT>
+
     <div class="change" id="card">
-        <a style="padding:2%;" href="/"><img class="change" id="favorite" style="float:left;width:80px;margin-top:-15px;margin-left:-15px;" src="source/img/favorite.jpg"></a>
-        <div style="padding:1%;float:left;"><b style="font-size:150%;">项目<br></b>Project</div>
-        
+        <!-- 返回首页按钮 -->
+        <a style="padding:2%;" href="/">
+            <img class="change" id="favorite" style="float:left;width:80px;margin-top:-15px;margin-left:-15px;" src="source/img/favorite.jpg" alt="主页">
+        </a>
+
+        <div style="padding:1%;float:left;">
+            <b style="font-size:150%;background:linear-gradient(135deg, rgb(198, 248, 255), rgb(187, 150, 210));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">项目<br></b>Project
+        </div>
+
         <br><br><br><br>
 
-        <a target="_blank" rel="nofollow" href="https://home.tutime.cn/">
-            <div style="overflow:hidden;padding:1%;margin:5%;" class="project_card">
-                <img class="p_card_p" style="padding-right:4%;border-radius:8px;width:30%;float:left;" src="https://image.thum.io/get/width/1024/crop/768/https://home.tutime.cn/">
-                <left>
-                    <b class="p_card_tag" style="border-radius:5px;color:#fff;background-color:#4caf50;padding-right:1%;float:left;font-size:15px;"> &nbsp;开源库</b>
-                    <b class="p_card_tag" style="background: #0099ff!important;border-radius:5px;color:#fff;background-color:#4caf50;padding-right:1%;float:left;font-size:15px;"> &nbsp;前端</b><br><br>
-                    <p class="p_all_text"><left><b class="p_card_t" style="padding-right:1%;float:left;font-size:20px;margin-top:-20px;">TuHome</b><br></left>
-                    <a class="p_card_text" style="font-size:15px;padding-right:1%;color:#333;">一款毛玻璃样式的个人主页</a>
-                </left></p>
-                <br><br>
+        <!-- 页面标题和描述 -->
+        <h1 class="page-title">Project</h1>
+
+        <!-- 项目导航 -->
+        <div class="project-nav">
+            <button class="project-btn active">全部项目</button>
+            <button class="project-btn">人工智能</button>
+            <button class="project-btn">Web开发</button>
+            <button class="project-btn">课程项目</button>
+            <button class="project-btn">开源贡献</button>
+        </div>
+
+        <!-- 项目过滤 -->
+        <div class="filter-container">
+            <h3 class="filter-title">按技术筛选</h3>
+            <div class="filter-tags">
+                <span class="filter-tag active">全部</span>
+                <span class="filter-tag">C++</span>
+                <span class="filter-tag">Python</span>
+                <span class="filter-tag">JavaScript</span>
+                <span class="filter-tag">机器学习</span>
+                <span class="filter-tag">算法</span>
+                <span class="filter-tag">Web</span>
+                <span class="filter-tag">数据库</span>
             </div>
+        </div>
+
+        <!-- 项目1: Amazons -->
+        <a target="_blank" rel="nofollow" href="https://github.com/Elanor-qc/Amazons" class="project-card">
+            <div class="project-header">
+                <h2 class="project-title">Amazons Game AI</h2>
+                <span class="project-date">2026年1月</span>
+            </div>
+
+            <div class="project-content">
+                <img class="project-img" src="https://image.thum.io/get/width/1024/crop/768/https://github.com/Elanor-qc/Amazons" alt="Amazons项目预览">
+                <div class="project-details">
+                    <p class="project-description">
+                        基于C++实现的Amazons游戏AI，采用Minimax算法和Alpha-Beta剪枝优化。项目包括完整的游戏引擎和GUI界面。北京大学2025秋季计算概论A课程大作业。
+                    </p>
+
+                    <div class="project-tags">
+                        <span class="project-tag cplusplus">C++</span>
+                        <span class="project-tag ai">Minimax算法</span>
+                        <span class="project-tag ai">Alpha-Beta剪枝</span>
+                        <span class="project-tag ai">游戏AI</span>
+                    </div>
+                </div>
+            </div>
+
+            <span class="project-link">查看项目详情</span>
         </a>
 
-        <a target="_blank" rel="nofollow" href="https://github.com/ye-tutu/Make_Links">
-            <div style="overflow:hidden;padding:1%;margin:5%;" class="project_card">
-                <img class="p_card_p" style="padding-right:4%;border-radius:8px;width:30%;float:left;" src="https://cdn.jsdelivr.net/gh/ye-tutu/blog-cdn/picture/20210903/1.png">
-                <left>
-                    <b class="p_card_tag" style="border-radius:5px;color:#fff;background-color:#4caf50;padding-right:1%;float:left;font-size:15px;"> &nbsp;开源库</b>
-                    <b class="p_card_tag" style="background: #0099ff!important;border-radius:5px;color:#fff;background-color:#4caf50;padding-right:1%;float:left;font-size:15px;"> &nbsp;前端</b>
-                    <b class="p_card_tag" style="background: #CD3333!important;border-radius:5px;color:#fff;background-color:#4caf50;padding-right:1%;float:left;font-size:15px;"> &nbsp;Python</b><br><br>
-                    <p class="p_all_text"><left><b class="p_card_t" style="padding-right:1%;float:left;font-size:20px;margin-top:-20px;">Make_links</b><br></left>
-                    <a class="p_card_text" style="font-size:15px;padding-right:1%;color:#333;">用python生成精美的友情链接网页<br> Github ：https://github.com/ye-tutu/Make_Links</a>
-                </left></p>
-                <br><br>
-            </div>
+
+        <!-- 返回首页按钮 -->
+        <a href="/" class="back-home-btn">
+            <span class="icon-arrow">←</span> 返回首页
         </a>
-
-        <a target="_blank" rel="nofollow" href="https://github.com/ye-tutu/PseudoMacLogin">
-            <div style="overflow:hidden;padding:1%;margin:5%;" class="project_card">
-                <img class="p_card_p" style="padding-right:4%;border-radius:8px;width:30%;float:left;" src="https://cdn.jsdelivr.net/gh/ye-tutu/blog-cdn@main/picture/1635052804000.png">
-                <left>
-                    <b class="p_card_tag" style="border-radius:5px;color:#fff;background-color:#4caf50;padding-right:1%;float:left;font-size:15px;"> &nbsp;开源库</b>
-                    <b class="p_card_tag" style="background: #0099ff!important;border-radius:5px;color:#fff;background-color:#4caf50;padding-right:1%;float:left;font-size:15px;"> &nbsp;前端</b>
-                    <br><br>
-                    <p class="p_all_text"><left><b class="p_card_t" style="padding-right:1%;float:left;font-size:20px;margin-top:-20px;">PseudoMacLogin</b><br></left>
-                    <a class="p_card_text" style="font-size:15px;padding-right:1%;color:#333;">一个模拟mac登录界面网页，骗电脑密码的神器<br> Github ：https://github.com/ye-tutu/PseudoMacLogin</a>
-                </left></p>
-                <br><br>
-            </div>
-        </a>
-
-
-
-        <br><br><br>
-        
-        <a style="padding:2%;" href="/"><i class="iconfont iconicon-arrow-left2">返回</i></a>
         <br>
         <br>
     </div>
+
     <footer id="footer">
         <script type="text/javascript" src="source/js/footer.js"></script>
     </footer>
 
+    <script>
+        // 与project页面一致的脚本保护功能
+        document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        });
+
+        document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+        });
+
+        document.addEventListener('dragstart', function(e) {
+        e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+        // 禁用F12、Ctrl+Shift+I、Ctrl+Shift+J等
+        if (e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
+        (e.ctrlKey && e.key === 'U')) {
+        e.preventDefault();
+        }
+        });
+
+        // 项目页面交互功能
+        document.addEventListener('DOMContentLoaded', function() {
+        // 项目导航按钮交互
+        const projectButtons = document.querySelectorAll('.project-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        projectButtons.forEach(button => {
+        button.addEventListener('click', function() {
+        // 移除所有按钮的active类
+        projectButtons.forEach(btn => btn.classList.remove('active'));
+
+        // 为当前按钮添加active类
+        this.classList.add('active');
+
+        // 获取按钮文本
+        const filter = this.textContent;
+
+        // 根据分类筛选项目
+        projectCards.forEach(card => {
+        if (filter === '全部项目') {
+        card.style.display = 'block';
+        } else {
+        // 根据项目标题和标签判断是否显示
+        const title = card.querySelector('.project-title').textContent;
+        const tags = Array.from(card.querySelectorAll('.project-tag')).map(tag => tag.textContent);
+
+        let shouldShow = false;
+
+        // 简单的筛选逻辑
+        if (filter === '人工智能' && (
+        title.includes('AI') ||
+        title.includes('学习') ||
+        title.includes('智能') ||
+        tags.some(tag => tag.includes('学习') || tag.includes('算法') || tag.includes('AI'))
+        )) {
+        shouldShow = true;
+        } else if (filter === 'Web开发' && (
+        tags.some(tag => tag.includes('React') || tag.includes('Node') || tag.includes('Web') || tag.includes('JavaScript'))
+        )) {
+        shouldShow = true;
+        } else if (filter === '课程项目' && (
+        title.includes('课程') ||
+        title.includes('作业') ||
+        card.querySelector('.project-description').textContent.includes('课程')
+        )) {
+        shouldShow = true;
+        } else if (filter === '开源贡献' && (
+        title.includes('开源') ||
+        card.querySelector('.project-description').textContent.includes('开源')
+        )) {
+        shouldShow = true;
+        }
+
+        card.style.display = shouldShow ? 'block' : 'none';
+        }
+        });
+        });
+        });
+
+        // 技术标签筛选交互
+        const filterTags = document.querySelectorAll('.filter-tag');
+
+        filterTags.forEach(tag => {
+        tag.addEventListener('click', function() {
+        // 移除所有过滤标签的active类
+        filterTags.forEach(t => t.classList.remove('active'));
+
+        // 为当前标签添加active类
+        this.classList.add('active');
+
+        // 获取标签文本
+        const techFilter = this.textContent;
+
+        if (techFilter === '全部') {
+        projectCards.forEach(card => card.style.display = 'block');
+        } else {
+        // 根据技术标签筛选项目
+        projectCards.forEach(card => {
+        const tags = Array.from(card.querySelectorAll('.project-tag')).map(tag => tag.textContent);
+
+        const shouldShow = tags.some(tagText => {
+        if (techFilter === 'C++' && tagText.includes('C++')) return true;
+        if (techFilter === 'Python' && tagText.includes('Python')) return true;
+        if (techFilter === 'JavaScript' && tagText.includes('JavaScript')) return true;
+        if (techFilter === '机器学习' && (tagText.includes('学习') || tagText.includes('PyTorch') || tagText.includes('AI'))) return true;
+        if (techFilter === '算法' && tagText.includes('算法')) return true;
+        if (techFilter === 'Web' && tagText.includes('Web')) return true;
+        if (techFilter === '数据库' && tagText.includes('MongoDB')) return true;
+        return false;
+        });
+
+        card.style.display = shouldShow ? 'block' : 'none';
+        });
+        }
+        });
+        });
+
+        // 项目卡片点击统计（模拟）
+        projectCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+        // 在实际应用中，这里可以发送统计信息到服务器
+        console.log(`项目被点击: ${this.querySelector('.project-title').textContent}`);
+        });
+        });
+        });
+    </script>
 </body>
 </html>

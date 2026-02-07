@@ -1,53 +1,684 @@
 <!DOCTYPE html>
-<html  oncontextmenu=self.event.returnValue=false onselectstart="return false">
+<html oncontextmenu="return false" onselectstart="return false">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" src="source/js/header.js"></script>
-    <link rel="stylesheet" href="https://at.alicdn.com/t/font_2037988_8uzxiubtutg.css" type="text/css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
-    <title>碎语 - TuHome</title>
+    <title>博客 - Elanor's Garden</title>
+    <style>
+        /* 精确紫色渐变主题变量 */
+        :root {
+            --color-start: rgb(198, 248, 255);
+            --color-end: rgb(187, 150, 210);
+            --primary-gradient: linear-gradient(135deg, rgb(198, 248, 255), rgb(187, 150, 210));
+            --secondary: #8a4baf;
+            --accent: #ff7e5f;
+            --light: #faf6ff;
+            --dark: #3d3749;
+            --gray: #6b6577;
+            --light-gray: #e8e2f0;
+            --border: #d1c6e1;
+            --shadow-sm: 0 2px 8px rgba(140, 110, 170, 0.1);
+            --shadow-md: 0 5px 15px rgba(140, 110, 170, 0.15);
+            --shadow-lg: 0 10px 25px rgba(140, 110, 170, 0.18);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(198, 248, 255, 0.15), rgba(187, 150, 210, 0.15));
+            color: #333;
+            line-height: 1.6;
+        }
+
+        #card {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            padding: 30px;
+            margin-top: 20px;
+            border: 1px solid var(--border);
+        }
+
+        #favorite {
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease;
+        }
+
+            #favorite:hover {
+                transform: scale(1.05);
+            }
+
+        .page-title {
+            font-size: 2rem;
+            color: var(--dark);
+            margin: 20px 0 10px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid;
+            border-image: var(--primary-gradient);
+            border-image-slice: 1;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .page-subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .blog-nav {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            justify-content: center;
+        }
+
+        .nav-btn {
+            padding: 8px 20px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            color: var(--dark);
+        }
+
+            .nav-btn.active,
+            .nav-btn:hover {
+                background: var(--primary-gradient);
+                color: white;
+                border-color: transparent;
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-md);
+            }
+
+        /* 博客卡片 - 列表视图 */
+        .blog-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow-md);
+            border-top: 5px solid transparent;
+            border-image: var(--primary-gradient);
+            border-image-slice: 1;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .blog-card:hover {
+                transform: translateY(-5px);
+                box-shadow: var(--shadow-lg);
+            }
+
+        .blog-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .blog-title {
+            font-size: 1.4rem;
+            color: var(--dark);
+            margin: 0;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .blog-date {
+            color: var(--gray);
+            font-size: 0.9rem;
+            background: rgba(198, 248, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+        }
+
+        .blog-excerpt {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .blog-full-content {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .blog-excerpt::after {
+            content: "...";
+            color: var(--gray);
+        }
+
+        .blog-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .blog-tag {
+            display: inline-block;
+            background: rgba(198, 248, 255, 0.3);
+            color: rgb(66, 133, 146);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(198, 248, 255, 0.6);
+        }
+
+            .blog-tag.reading {
+                background: rgba(187, 150, 210, 0.3);
+                color: rgb(116, 80, 139);
+                border: 1px solid rgba(187, 150, 210, 0.6);
+            }
+
+            .blog-tag.thought {
+                background: rgba(255, 126, 95, 0.2);
+                color: rgb(179, 89, 60);
+                border: 1px solid rgba(255, 126, 95, 0.4);
+            }
+
+            .blog-tag.tech {
+                background: rgba(138, 75, 175, 0.2);
+                color: rgb(116, 42, 163);
+                border: 1px solid rgba(138, 75, 175, 0.4);
+            }
+
+        .read-more-btn {
+            display: inline-block;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border: 1px solid var(--secondary);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+            .read-more-btn:hover {
+                background: var(--secondary);
+                color: white;
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-sm);
+            }
+
+        .read-less-btn {
+            display: inline-block;
+            color: white;
+            background: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border: 1px solid var(--secondary);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .read-less-btn:hover {
+                background: rgb(116, 42, 163);
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-sm);
+            }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            background: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+            .search-input:focus {
+                outline: none;
+                border-color: rgb(187, 150, 210);
+                box-shadow: 0 0 0 3px rgba(187, 150, 210, 0.2);
+            }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .back-home-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-gradient);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .back-home-btn::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                transition: left 0.7s ease;
+            }
+
+            .back-home-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: var(--shadow-lg);
+            }
+
+                .back-home-btn:hover::before {
+                    left: 100%;
+                }
+
+            .back-home-btn .icon-arrow {
+                margin-right: 8px;
+                transition: transform 0.3s ease;
+            }
+
+            .back-home-btn:hover .icon-arrow {
+                transform: translateX(-3px);
+            }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .blog-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .blog-date {
+                margin-top: 10px;
+            }
+
+            #card {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .page-title {
+                font-size: 1.6rem;
+            }
+
+            .blog-nav {
+                justify-content: center;
+            }
+
+            .back-home-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 <body>
     <noscript> <iframe src="*.htm"></iframe> </noscript>
-    <SCRIPT language=JavaScript>
-        document.oncontextmenu = nocontextmenu;
-        document.onmousedown = norightclick;
-        document.ondragstart = noDragstart;
-        document.onselectstart = noSelect;
-        document.onselect = document.selection.empty();
-        document.onkeydown = keyDown;
-    </SCRIPT>
+
     <div class="change" id="card">
-        <a style="padding:2%;" href="/"><img class="change" id="favorite" style="float:left;width:80px;margin-top:-15px;margin-left:-15px;" src="source/img/favorite.jpg"></a>
-        <div style="padding:1%;float:left;"><b style="font-size:150%;">碎语<br></b>Say</div>
-        
-        <br><br><br>
-        <div style="padding:3%;">
-            <!-- 引用 HexoPlusPlus_Talk组件 -->
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HexoPlusPlus/HexoPlusPlus@1.2.0/talk.css" /> 
-            <script src="https://cdn.jsdelivr.net/gh/HexoPlusPlus/HexoPlusPlus@1.2.0/talk_user.js"></script>
-            <!-- 创建HexoPlusPlus_Talk容器 -->
-            <div id="hpp_talk"></div>
-            <!-- 激活HexoPlusPlus_Talk -->
-            <script>
-                new hpp_talk({
-                id:"hpp_talk",//容器id
-                domain: "admin.ye-tutu.workers.dev",//您的HexoPlusPlus域名，如admin.cyfan.top
-                limit:8,//单次获取的最多条数
-                start: 0,//从第几条开始
-                themecss: "https://cdn.jsdelivr.net/gh/HexoPlusPlus/CDN@master/plugin/style/heimu.css" //自定义说说主题，可选【仅1.1.0版本及以上使用】
-                });
-            </script>
-    
+        <a style="padding:2%;" href="/">
+            <img class="change" id="favorite" style="float:left;width:80px;margin-top:-15px;margin-left:-15px;" src="source/img/favorite.jpg" alt="主页">
+        </a>
+
+        <div style="padding:1%;float:left;">
+            <b style="font-size:150%;background:linear-gradient(135deg, rgb(198, 248, 255), rgb(187, 150, 210));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">博客<br></b>Blogs
         </div>
-        <a style="padding:2%;" href="/"><i class="iconfont iconicon-arrow-left2">返回</i></a>
+
+        <br><br><br><br>
+
+        <h1 class="page-title">随想与阅读笔记</h1>
+        <p class="page-subtitle">记录思考、学习笔记和偶尔的灵感闪现</p>
+
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="搜索文章..." id="searchInput">
+        </div>
+
+        <div class="blog-nav">
+            <button class="nav-btn active" data-filter="all">全部文章</button>
+            <button class="nav-btn" data-filter="reading">阅读笔记</button>
+            <button class="nav-btn" data-filter="tech">技术思考</button>
+            <button class="nav-btn" data-filter="thought">生活随想</button>
+        </div>
+
+        <div id="blog-list">
+            <!-- 博客文章1 -->
+            <div class="blog-card" data-category="reading" data-tags="阅读笔记 心理学 工作效率">
+                <div class="blog-header">
+                    <h2 class="blog-title">《深度工作》阅读笔记与思考</h2>
+                    <span class="blog-date">2024年3月15日</span>
+                </div>
+
+                <div class="blog-tags">
+                    <span class="blog-tag reading">阅读笔记</span>
+                    <span class="blog-tag">心理学</span>
+                    <span class="blog-tag">工作效率</span>
+                </div>
+
+                <p class="blog-excerpt">
+                    卡尔·纽波特在《深度工作》中提出的概念让我重新思考了自己的工作方式。深度工作指的是在无干扰的状态下专注进行职业活动，使个人的认知能力达到极限。这种努力能够创造新价值，提升技能，而且难以复制...
+                </p>
+
+                <div class="blog-full-content">
+                    <p>卡尔·纽波特在《深度工作》中提出的概念让我重新思考了自己的工作方式。深度工作指的是在无干扰的状态下专注进行职业活动，使个人的认知能力达到极限。这种努力能够创造新价值，提升技能，而且难以复制。</p>
+
+                    <h3>深度工作的四种模式</h3>
+                    <p>纽波特提出了深度工作的四种模式：</p>
+                    <ul>
+                        <li><strong>禁欲主义模式</strong>：完全排除干扰，适合学者和作家</li>
+                        <li><strong>双峰模式</strong>：将时间分为深度工作和浅层工作，适合有固定工作时间的人</li>
+                        <li><strong>节奏模式</strong>：每天固定时间进行深度工作，适合形成习惯</li>
+                        <li><strong>记者模式</strong>：随时随地进入深度工作状态，适合经验丰富者</li>
+                    </ul>
+
+                    <h3>我的实践与反思</h3>
+                    <p>在尝试了节奏模式一个月后，我发现自己在上午9-11点的效率最高。这段时间我会关闭所有通知，专心于最需要思考的任务。效果显著：原本需要一周完成的代码优化，现在两天就能完成。</p>
+
+                    <p>然而，深度工作并不适合所有任务。对于邮件回复、会议安排等浅层工作，我们需要接受它的"浅"，而不是强迫自己"深"。</p>
+
+                    <p>这本书最大的启发是：在注意力分散的时代，深度工作成为一种稀缺能力，也是个人竞争力的重要来源。</p>
+                </div>
+
+                <button class="read-more-btn" onclick="toggleFullContent(this)">阅读全文</button>
+            </div>
+
+            <!-- 博客文章2 -->
+            <div class="blog-card" data-category="tech" data-tags="技术思考 强化学习 算法">
+                <div class="blog-header">
+                    <h2 class="blog-title">强化学习中的探索与利用平衡</h2>
+                    <span class="blog-date">2024年3月10日</span>
+                </div>
+
+                <div class="blog-tags">
+                    <span class="blog-tag tech">技术思考</span>
+                    <span class="blog-tag">强化学习</span>
+                    <span class="blog-tag">算法</span>
+                </div>
+
+                <p class="blog-excerpt">
+                    在多臂赌博机问题和更复杂的强化学习任务中，探索与利用的平衡始终是一个核心问题。ε-greedy策略虽然简单有效，但在某些情况下可能不是最优选择...
+                </p>
+
+                <div class="blog-full-content">
+                    <p>在多臂赌博机问题和更复杂的强化学习任务中，探索与利用的平衡始终是一个核心问题。ε-greedy策略虽然简单有效，但在某些情况下可能不是最优选择。最近读到一篇关于Thompson采样的论文，发现它在处理探索利用权衡时表现出了令人惊讶的效果。</p>
+
+                    <h3>探索-利用困境的本质</h3>
+                    <p>这个困境可以追溯到人类决策的各个层面：</p>
+                    <ul>
+                        <li>尝试新餐馆还是去常去的餐馆？</li>
+                        <li>继续使用现有技术还是探索新技术？</li>
+                        <li>在研究中，是深化现有方向还是探索新领域？</li>
+                    </ul>
+
+                    <h3>常见策略比较</h3>
+                    <p><strong>ε-greedy</strong>：以ε概率随机探索，1-ε概率利用最优动作。简单但可能浪费探索机会。</p>
+                    <p><strong>UCB（置信上界）</strong>：为每个动作计算置信区间，选择上界最大的动作。平衡了探索和利用。</p>
+                    <p><strong>Thompson采样</strong>：为每个动作维护一个概率分布，根据分布采样选择动作。在理论和实践中都表现优异。</p>
+
+                    <h3>实际应用思考</h3>
+                    <p>在Amazons游戏AI项目中，我采用了基于UCB的改进算法。初期更多探索不同走法，随着对局数增加，逐渐偏向利用已知的最佳策略。这种动态平衡使得AI既能发现新颖策略，又不会在明显劣势的走法上浪费时间。</p>
+
+                    <p>有趣的是，这个原则也适用于个人学习：何时深入已有知识，何时探索新领域？也许我们需要一个个性化的"学习策略"。</p>
+                </div>
+
+                <button class="read-more-btn" onclick="toggleFullContent(this)">阅读全文</button>
+            </div>
+
+            <!-- 博客文章3 -->
+            <div class="blog-card" data-category="thought" data-tags="生活随想 阅读 思考">
+                <div class="blog-header">
+                    <h2 class="blog-title">为什么我们需要"无用"的阅读？</h2>
+                    <span class="blog-date">2024年3月5日</span>
+                </div>
+
+                <div class="blog-tags">
+                    <span class="blog-tag thought">生活随想</span>
+                    <span class="blog-tag">阅读</span>
+                    <span class="blog-tag">思考</span>
+                </div>
+
+                <p class="blog-excerpt">
+                    在效率至上的今天，我们往往只进行"有用"的阅读——技术文档、论文、工具书。但那些看似"无用"的小说、诗歌、哲学随笔，实际上在塑造我们的思维方式和世界观...
+                </p>
+
+                <div class="blog-full-content">
+                    <p>在效率至上的今天，我们往往只进行"有用"的阅读——技术文档、论文、工具书。但那些看似"无用"的小说、诗歌、哲学随笔，实际上在塑造我们的思维方式和世界观。纳博科夫曾说："一个读者出生两次，第一次是出生在这个世界上，第二次是当他发现自己是一个读者的时候。"</p>
+
+                    <h3>"无用"之用的三个层面</h3>
+                    <p><strong>1. 思维模式的拓展</strong></p>
+                    <p>小说让我们进入他人的内心世界，理解不同的生活和选择。这种共情能力在技术领域同样重要——理解用户需求、团队协作，都需要超越自我中心的视角。</p>
+
+                    <p><strong>2. 创造力的源泉</strong></p>
+                    <p>许多科学发现源于看似无关的联想。凯库勒梦见蛇咬住自己的尾巴而悟出苯环结构，这种跨领域的连接能力，往往来自广泛而"无用"的阅读。</p>
+
+                    <p><strong>3. 内在价值的实现</strong></p>
+                    <p>技术能力让我们生存，人文思考让我们生活。在代码和算法之外，我们需要回答：为什么要写这段代码？它为谁服务？创造了什么价值？</p>
+
+                    <h3>我的阅读实践</h3>
+                    <p>我每周会安排2-3小时进行"无目的阅读"，最近在读：</p>
+                    <ul>
+                        <li>《禅与摩托车维修艺术》——关于技术与人文的思考</li>
+                        <li>博尔赫斯的短篇小说——思维的迷宫游戏</li>
+                        <li>王阳明的《传习录》——东方哲学的行动指南</li>
+                    </ul>
+
+                    <p>这些阅读看似与我的专业无关，但它们让我成为一个更完整的人，也间接影响了我的技术思考和项目设计。</p>
+                </div>
+
+                <button class="read-more-btn" onclick="toggleFullContent(this)">阅读全文</button>
+            </div>
+        </div>
+
+        <div id="empty-state" class="empty-state" style="display: none;">
+            <div class="empty-state-icon">📝</div>
+            <h3>未找到相关文章</h3>
+            <p>尝试使用其他关键词搜索或选择不同的分类</p>
+        </div>
+
+        <a href="/" class="back-home-btn">
+            <span class="icon-arrow">←</span> 返回首页
+        </a>
         <br>
         <br>
     </div>
+
     <footer id="footer">
         <script type="text/javascript" src="source/js/footer.js"></script>
     </footer>
 
+    <script>
+        // 与project页面一致的脚本保护功能
+        document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        });
+
+        document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+        });
+
+        document.addEventListener('dragstart', function(e) {
+        e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
+        (e.ctrlKey && e.key === 'U')) {
+        e.preventDefault();
+        }
+        });
+
+        // 博客页面交互功能
+        document.addEventListener('DOMContentLoaded', function() {
+        const blogCards = document.querySelectorAll('.blog-card');
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const searchInput = document.getElementById('searchInput');
+        const emptyState = document.getElementById('empty-state');
+
+        // 导航按钮交互
+        navButtons.forEach(button => {
+        button.addEventListener('click', function() {
+        navButtons.forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+        const filter = this.dataset.filter;
+        filterBlogs(filter, searchInput.value);
+        });
+        });
+
+        // 搜索功能
+        searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const activeFilter = document.querySelector('.nav-btn.active').dataset.filter;
+        filterBlogs(activeFilter, searchTerm);
+        });
+
+        // 博客标题点击事件 - 展开/收起文章
+        document.querySelectorAll('.blog-title').forEach(title => {
+        title.addEventListener('click', function() {
+        const blogCard = this.closest('.blog-card');
+        const excerpt = blogCard.querySelector('.blog-excerpt');
+        const fullContent = blogCard.querySelector('.blog-full-content');
+        const btn = blogCard.querySelector('.read-more-btn');
+
+        if (excerpt.style.display === 'none') {
+        excerpt.style.display = 'block';
+        fullContent.style.display = 'none';
+        btn.textContent = '阅读全文';
+        btn.className = 'read-more-btn';
+        } else {
+        excerpt.style.display = 'none';
+        fullContent.style.display = 'block';
+        btn.textContent = '收起全文';
+        btn.className = 'read-less-btn';
+        }
+        });
+        });
+
+        // 过滤博客文章的函数
+        function filterBlogs(categoryFilter, searchTerm) {
+        let visibleCount = 0;
+
+        blogCards.forEach(card => {
+        const category = card.dataset.category;
+        const tags = card.dataset.tags.toLowerCase();
+        const title = card.querySelector('.blog-title').textContent.toLowerCase();
+        const excerpt = card.querySelector('.blog-excerpt').textContent.toLowerCase();
+
+        let categoryMatch = (categoryFilter === 'all' || categoryFilter === category);
+        let searchMatch = true;
+
+        if (searchTerm) {
+        searchMatch = title.includes(searchTerm) ||
+        excerpt.includes(searchTerm) ||
+        tags.includes(searchTerm);
+        }
+
+        if (categoryMatch && searchMatch) {
+        card.style.display = 'block';
+        visibleCount++;
+        } else {
+        card.style.display = 'none';
+        }
+        });
+
+        if (visibleCount === 0) {
+        emptyState.style.display = 'block';
+        } else {
+        emptyState.style.display = 'none';
+        }
+        }
+
+        filterBlogs('all', '');
+
+        // 键盘快捷键
+        document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+        e.preventDefault();
+        searchInput.focus();
+        }
+
+        if (e.key === 'Escape') {
+        searchInput.value = '';
+        const activeFilter = document.querySelector('.nav-btn.active').dataset.filter;
+        filterBlogs(activeFilter, '');
+        }
+        });
+        });
+
+        // 切换全文显示/隐藏
+        function toggleFullContent(button) {
+        const blogCard = button.closest('.blog-card');
+        const excerpt = blogCard.querySelector('.blog-excerpt');
+        const fullContent = blogCard.querySelector('.blog-full-content');
+
+        if (excerpt.style.display === 'none') {
+        // 当前显示全文，切换到摘要
+        excerpt.style.display = 'block';
+        fullContent.style.display = 'none';
+        button.textContent = '阅读全文';
+        button.className = 'read-more-btn';
+        } else {
+        // 当前显示摘要，切换到全文
+        excerpt.style.display = 'none';
+        fullContent.style.display = 'block';
+        button.textContent = '收起全文';
+        button.className = 'read-less-btn';
+
+        // 滚动到文章顶部
+        blogCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        }
+    </script>
 </body>
 </html>
