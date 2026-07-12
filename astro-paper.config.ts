@@ -4,7 +4,7 @@ export default defineAstroPaperConfig({
   site: {
     url: "https://elanor-qc.github.io/",
     title: "高琦程 Gao Qicheng",
-    description: "高琦程的个人主页与博客。",
+    description: "高琦程的个人主页。",
     author: "高琦程 Gao Qicheng",
     profile: "https://github.com/Elanor-qc",
     ogImage: "default-og.jpg",
