@@ -30,6 +30,12 @@ export default defineAstroPaperConfig({
   },
   socials: [
     { name: "github", url: "https://github.com/Elanor-qc" },
+    { name: "mail", url: "mailto:qcgao25@stu.pku.edu.cn" },
+    {
+      name: "wechat",
+      url: "weixin://dl/chat?15192721721",
+      linkTitle: "WeChat: 15192721721",
+    },
   ],
   shareLinks: [
     { name: "whatsapp", url: "https://wa.me/?text=" },
