@@ -26,7 +26,7 @@ export default defineAstroPaperConfig({
       enabled: true,
       url: "https://github.com/Elanor-qc/Elanor-qc.github.io/edit/main/",
     },
-    search: "pagefind",
+    search: false,
   },
   socials: [
     { name: "github", url: "https://github.com/Elanor-qc" },
