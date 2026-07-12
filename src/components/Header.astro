@@ -86,17 +86,17 @@ const isActive = (path: string) => {
           features.showArchives && (
             <li class="col-span-2">
               <LinkButton
-                href={getRelativeLocaleUrl(locale, "archives")}
+                href={getRelativeLocaleUrl(locale, "news")}
                 class:list={[
                   "focus-outline flex size-full justify-center p-3 sm:relative sm:size-8 sm:p-0",
-                  { "active-nav": isActive("/archives") },
+                  { "active-nav": isActive("/news") },
                 ]}
-                title={t.nav.archives}
-                aria-label={t.nav.archives}
+                title="News"
+                aria-label="News"
               >
                 <IconArchive class="hidden sm:absolute sm:top-1/2 sm:left-1/2 sm:block sm:size-6 sm:-translate-x-1/2 sm:-translate-y-1/2" />
-                <span class="sm:sr-only">{t.nav.archives}</span>
-                {isActive("/archives") && (
+                <span class="sm:sr-only">News</span>
+                {isActive("/news") && (
                   <IconUnderline
                     aria-hidden="true"
                     class="scale-125 max-sm:hidden sm:absolute sm:bottom-0 sm:w-6"
