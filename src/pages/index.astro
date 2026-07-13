@@ -3,63 +3,76 @@ import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
+import IconCalendar from "@/assets/icons/IconCalendar.svg";
 import config from "@/config";
 
 const { socials } = config;
+
+const awards = [
+  { title: "黄奕聪奖学金", year: "2026", detail: "北京大学" },
+  { title: "北京大学新生奖学金", year: "2025", detail: "北京大学" },
+];
+
+const news = [
+  { title: "进入北京大学元培学院智能科学与技术（智班）学习", year: "2025" },
+];
 ---
 
 <Layout>
   <Header />
   <main id="main-content" class="app-layout">
-    <section id="hero" class="border-border border-b pt-12 pb-10 sm:pt-20 sm:pb-16">
-      <p class="text-accent mb-4 text-sm font-semibold tracking-[0.16em]">PERSONAL SITE</p>
-      <h1 class="text-4xl font-bold tracking-tight sm:text-6xl">
-        高琦程 <span class="text-muted-foreground font-normal">Gao Qicheng</span>
-      </h1>
-      <p class="text-muted-foreground mt-6 max-w-2xl text-lg leading-8">
-        北京大学元培学院 · 智能科学与技术（智班）
-      </p>
+    <section id="hero" class="border-border border-b pt-8 pb-6">
+      <h1 class="my-4 text-4xl font-bold sm:my-8 sm:text-5xl">高琦程 Gao Qicheng</h1>
+      <p class="max-w-2xl text-lg">北京大学元培学院 · 智能科学与技术（智班）</p>
+      <p class="mt-2 max-w-2xl">你好，我是高琦程。这里记录我的学习、研究兴趣与成长轨迹。</p>
       {
         socials.length > 0 && (
-          <div class="mt-7 flex items-center gap-2">
-            <span class="text-muted-foreground text-sm">Connect</span>
+          <div class="mt-4 flex max-sm:flex-col sm:items-center">
+            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">Connect:</div>
             <Socials />
           </div>
         )
       }
     </section>
 
-    <section id="about" class="border-border grid gap-8 border-b py-12 sm:grid-cols-[10rem_1fr]">
-      <h2 class="text-2xl font-semibold tracking-wide">About</h2>
-      <div class="app-prose max-w-2xl">
-        <p>你好，我是高琦程。目前就读于北京大学元培学院，主修智能科学与技术（智班）。</p>
-        <p>这里记录我的学习、研究兴趣与成长轨迹。</p>
-      </div>
-    </section>
-
-    <section id="awards" class="border-border grid gap-8 border-b py-12 sm:grid-cols-[10rem_1fr]">
+    <section id="awards" class="border-border border-b pt-12 pb-6">
       <h2 class="text-2xl font-semibold tracking-wide">Awards</h2>
-      <ul class="max-w-2xl divide-y divide-border">
-        <li class="flex items-baseline justify-between gap-6 py-4 first:pt-0">
-          <span>北京大学新生奖学金</span><time class="text-muted-foreground text-sm">2025</time>
-        </li>
-        <li class="flex items-baseline justify-between gap-6 py-4 last:pb-0">
-          <span>黄奕聪奖学金</span><time class="text-muted-foreground text-sm">2026</time>
-        </li>
+      <ul>
+        {
+          awards.map(award => (
+            <li class="my-6">
+              <h3 class="text-accent text-lg font-medium">{award.title}</h3>
+              <div class="text-muted-foreground mt-2 flex items-center gap-x-2">
+                <IconCalendar class="size-5" />
+                <time class="text-sm">{award.year}</time>
+              </div>
+              <p class="mt-2">{award.detail}</p>
+            </li>
+          ))
+        }
       </ul>
     </section>
 
-    <section id="publications" class="grid gap-8 py-12 sm:grid-cols-[10rem_1fr]">
-      <h2 class="text-2xl font-semibold tracking-wide">Selected Publications</h2>
-      <p class="text-muted-foreground max-w-2xl">暂未更新。</p>
+    <section id="news" class="border-border border-b pt-12 pb-6">
+      <h2 class="text-2xl font-semibold tracking-wide">News</h2>
+      <ul>
+        {
+          news.map(item => (
+            <li class="my-6">
+              <h3 class="text-accent text-lg font-medium">{item.title}</h3>
+              <div class="text-muted-foreground mt-2 flex items-center gap-x-2">
+                <IconCalendar class="size-5" />
+                <time class="text-sm">{item.year}</time>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
     </section>
 
-    <section id="contact" class="border-border grid gap-8 border-t py-12 sm:grid-cols-[10rem_1fr]">
-      <h2 class="text-2xl font-semibold tracking-wide">Contact</h2>
-      <div class="max-w-2xl space-y-2">
-        <p><a class="hover:text-accent underline underline-offset-4" href="mailto:qcgao25@stu.pku.edu.cn">qcgao25@stu.pku.edu.cn</a></p>
-        <p>WeChat · 15192721721</p>
-      </div>
+    <section id="publications" class="pt-12 pb-6">
+      <h2 class="text-2xl font-semibold tracking-wide">Selected Publications</h2>
+      <p class="mt-6">暂未更新。</p>
     </section>
   </main>
   <Footer />
