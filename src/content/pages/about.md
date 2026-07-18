@@ -1,13 +1,21 @@
 ---
 title: "About"
-description: "关于高琦程。"
+description: "about me"
 ---
 
-高琦程（Gao Qicheng）现就读于北京大学元培学院，主修智能科学与技术（智班）。
+I am Qicheng Gao, a sophomore student in the Yuanpei College, Peking University.  I currently work as a research assistant at VCLLab, where my interests lie in computer graphics and computer vision.
 
-这个页面用于记录个人背景与教育经历；奖项、动态和成果请见主页与 News 页面。
+I'm an avid reader. My favorite poet is Wisława Szymborska, and my beloved novelist is Ted Chiang. Freedom and beauty are what I truly desire.
 
 ## Education
 
-**北京大学元培学院**  
-智能科学与技术（智班）
+**Peking University YPC**  
+Intelligent Science and Technology (Zhi Class)
+
+## Awards
+
+**Peking University Freshman Scholarship**
+2025.12
+
+**Huang Yicong Scholarship**
+2026.7
