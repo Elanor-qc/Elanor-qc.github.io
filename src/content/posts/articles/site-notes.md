@@ -1,7 +1,7 @@
 ---
 title: "网站维护备忘"
 description: "记录如何发布博客，以及修改主页、About 页面和站点信息。"
-pubDatetime: 2026-07-18T12:00:00+08:00
+pubDatetime: 2026-07-18T00:00:00+08:00
 tags:
   - 网站
   - 备忘
