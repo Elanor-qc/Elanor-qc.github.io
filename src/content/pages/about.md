@@ -9,7 +9,7 @@ I'm an avid reader. My favorite poet is Wisława Szymborska, and my beloved nove
 
 ## Education
 
-- **[Peking University Yuanpei College](https://yuanpei.pku.edu.cn/)**  
+- **Peking University Yuanpei College**  
   Intelligent Science and Technology ([Zhi Class](https://zhi-class.ai/zh-cn/))
 
 ## Awards
