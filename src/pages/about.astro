@@ -29,6 +29,11 @@ const { Content } = await render(about);
   <Breadcrumb />
 
   <Main pageTitle={about.data.title} class="app-prose">
+    <div class="not-prose border-border mb-10 flex items-center gap-3 border-b pb-6">
+      <span class="text-accent text-xl" aria-hidden="true">✦</span>
+      <span class="text-muted-foreground text-sm tracking-wide">PERSONAL PROFILE</span>
+      <span class="bg-border h-px flex-1" aria-hidden="true"></span>
+    </div>
     <Content />
   </Main>
 
