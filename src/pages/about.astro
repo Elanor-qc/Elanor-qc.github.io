@@ -34,8 +34,20 @@ const { Content } = await render(about);
       <span class="text-muted-foreground text-sm tracking-wide">PERSONAL PROFILE</span>
       <span class="bg-border h-px flex-1" aria-hidden="true"></span>
     </div>
-    <Content />
+    <div class="about-content">
+      <Content />
+    </div>
   </Main>
 
   <Footer />
 </Layout>
+
+<style>
+  .about-content :global(h2) {
+    color: var(--accent);
+  }
+
+  .about-content :global(li::marker) {
+    color: var(--accent);
+  }
+</style>

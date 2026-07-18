@@ -9,13 +9,13 @@ I'm an avid reader. My favorite poet is Wisława Szymborska, and my beloved nove
 
 ## Education
 
-**[Peking University Yuanpei College](https://yuanpei.pku.edu.cn/)**  
-Intelligent Science and Technology ([Zhi Class](https://zhi-class.ai/zh-cn/))
+- **[Peking University Yuanpei College](https://yuanpei.pku.edu.cn/)**  
+  Intelligent Science and Technology ([Zhi Class](https://zhi-class.ai/zh-cn/))
 
 ## Awards
 
-**Peking University Freshman Scholarship**
-2025.12
+- **Peking University Freshman Scholarship**  
+  2025.12
 
-**Huang Yicong Scholarship**
-2026.7
+- **Huang Yicong Scholarship**  
+  2026.7
