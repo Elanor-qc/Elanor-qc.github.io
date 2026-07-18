@@ -1,5 +1,6 @@
 ---
 title: "Hello World!"
+description: "我的第一篇博客。"
 pubDatetime: 2026-07-18T00:00:00Z
 featured: false
 tags:
