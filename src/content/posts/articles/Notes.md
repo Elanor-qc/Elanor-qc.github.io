@@ -1,32 +1,23 @@
-\---
+---
 
 
 
 title: "大一的一些笔记"
 
-
-
 description: "软设＆AI引＆线代＆英诗"
-
-
 
 pubDatetime: 2026-07-25T00:00:00+08:00
 
 
-
 tags:
 
+  - Study
 
-
-&#x20; - Study
-
-
-
-&#x20; - Note
+  - Note
 
 
 
-\---
+---
 
 
 
@@ -38,11 +29,11 @@ tags:
 
 
 
-\[AI引论笔记](/files/AIINTRO.pdf)
+[AI引论笔记](/files/AIINTRO.pdf)
 
 
 
-\[设计模式笔记](/files/RJSJ\_DesignModel.pdf)
+[设计模式笔记](/files/RJSJ_DesignModel.pdf)
 
 
 
@@ -52,11 +43,11 @@ tags:
 
 
 
-\[期中论文](/files/midEssay.pdf)
+[期中论文](/files/midEssay.pdf)
 
 
 
-\[期末论文](/files/finalEssay.pdf)
+[期末论文](/files/finalEssay.pdf)
 
 
 
