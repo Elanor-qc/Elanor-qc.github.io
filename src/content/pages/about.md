@@ -29,4 +29,4 @@ I'm an avid reader. My favorite poet is Wisława Szymborska, and my beloved nove
   2026
 
 - **Huatai Securities Technology Scholarship**  
-  2026 · RMB 10,000
+  2026 ·（￥10,000）
