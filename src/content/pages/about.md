@@ -12,6 +12,11 @@ I'm an avid reader. My favorite poet is Wisława Szymborska, and my beloved nove
 - **Peking University Yuanpei College**  
   Intelligent Science and Technology ([Zhi Class](https://zhi-class.ai/zh-cn/))
 
+## Experience
+
+- **Tencent — Algorithm Intern**  
+  Aug 2026 – Present
+
 ## Awards
 
 - **Peking University Freshman Scholarship**  
@@ -19,3 +24,9 @@ I'm an avid reader. My favorite poet is Wisława Szymborska, and my beloved nove
 
 - **Huang Yicong Scholarship**  
   2026.7
+
+- **Peking University Merit Student Award**  
+  2026
+
+- **Huatai Securities Technology Scholarship**  
+  2026 · RMB 10,000

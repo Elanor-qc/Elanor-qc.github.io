@@ -7,7 +7,7 @@ tags:
   - Study
   - Tech
 featured: false
-draft: false
+draft: true
 ---
 
 链表理论上是计概A的内容，但是由于苯人习惯翘课＆期末考试并不涉及，这一块当时就没有学。。。从头学起吧！
