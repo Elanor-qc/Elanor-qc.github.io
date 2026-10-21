@@ -42,7 +42,13 @@ const { Content } = await render(about);
       <span class="bg-border h-px flex-1" aria-hidden="true"></span>
     </div>
     <div class="about-content">
-      <Image src={photo} alt="Qicheng Gao" width={240} class="profile-photo" />
+      <img
+        src={photo.src}
+        alt="Qicheng Gao"
+        width={photo.width}
+        height={photo.height}
+        class="profile-photo"
+      />
       <Content />
       <Image
         src={wechatQr}
