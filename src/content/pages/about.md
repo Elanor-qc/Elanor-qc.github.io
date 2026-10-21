@@ -32,3 +32,5 @@ I am Qicheng Gao, an undergraduate student in the Intelligent Science and Techno
 ## Miscellaneous
 
 I’m an avid reader—my favorite poet is Wisława Szymborska, and my favorite fiction writer is Ted Chiang. I also enjoy writing, playing football (I’m on the Yuanpei College Women’s Football Team!), and connecting with people.
+
+I also write at **Elanor Garden**, my WeChat public account—a place for reflections beyond research and study.
