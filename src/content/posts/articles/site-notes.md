@@ -4,7 +4,7 @@ description: "记录如何发布博客，以及修改主页、About 页面和站
 pubDatetime: 2026-07-18T00:00:00+08:00
 tags:
   - 备忘
-draft: true
+draft: false
 ---
 
 ## 写一篇新博客

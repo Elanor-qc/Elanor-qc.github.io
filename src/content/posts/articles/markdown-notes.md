@@ -12,7 +12,7 @@ tags:
 
   - 备忘
 
-draft: true
+draft: false
 ---
 
 

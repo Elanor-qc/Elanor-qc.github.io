@@ -1,5 +1,7 @@
 ---
 import { getEntry, render } from "astro:content";
+import { Image } from "astro:assets";
+import photo from "@/photo.jpg";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
@@ -29,12 +31,17 @@ const { Content } = await render(about);
   <Breadcrumb />
 
   <Main pageTitle={about.data.title} class="app-prose">
-    <div class="not-prose border-border mb-10 flex items-center gap-3 border-b pb-6">
+    <div
+      class="not-prose border-border mb-10 flex items-center gap-3 border-b pb-6"
+    >
       <span class="text-accent text-xl" aria-hidden="true">✦</span>
-      <span class="text-muted-foreground text-sm tracking-wide">PERSONAL PROFILE</span>
+      <span class="text-muted-foreground text-sm tracking-wide"
+        >PERSONAL PROFILE</span
+      >
       <span class="bg-border h-px flex-1" aria-hidden="true"></span>
     </div>
     <div class="about-content">
+      <Image src={photo} alt="Qicheng Gao" width={240} class="profile-photo" />
       <Content />
     </div>
   </Main>
@@ -43,11 +50,29 @@ const { Content } = await render(about);
 </Layout>
 
 <style>
+  .profile-photo {
+    float: right;
+    width: 38%;
+    max-width: 240px;
+    height: auto;
+    margin: 0 0 1.5rem 1.5rem;
+    border-radius: 0.75rem;
+  }
+
   .about-content :global(h2) {
+    clear: both;
     color: var(--accent);
   }
 
   .about-content :global(li::marker) {
     color: var(--accent);
+  }
+
+  @media (max-width: 480px) {
+    .profile-photo {
+      float: none;
+      width: 180px;
+      margin: 0 auto 1.5rem;
+    }
   }
 </style>

@@ -6,7 +6,7 @@ tags:
   - Note
   - Tech
 featured: false
-draft: true
+draft: false
 ---
 
 # Codex CLI 一页速记
